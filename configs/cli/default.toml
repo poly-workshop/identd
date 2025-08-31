@@ -1,0 +1,7 @@
+# CLI configuration
+# This configuration is used by the identra-cli tool for managing client credentials
+
+[gorm_client.database]
+driver = "sqlite"
+name = "data/users.db"
+sslmode = "disable"

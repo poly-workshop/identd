@@ -1,0 +1,353 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "identra/v1/identra.proto",
+    "version": "version not set"
+  },
+  "tags": [
+    {
+      "name": "IdentraService"
+    }
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/.well-known/jwks.json": {
+      "get": {
+        "summary": "GetJWKS returns the JSON Web Key Set for verifying tokens",
+        "operationId": "IdentraService_GetJWKS",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1GetJWKSResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "tags": [
+          "IdentraService"
+        ]
+      }
+    },
+    "/v1/oauth/login": {
+      "post": {
+        "operationId": "IdentraService_LoginByOAuth",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1LoginByOAuthResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1LoginByOAuthRequest"
+            }
+          }
+        ],
+        "tags": [
+          "IdentraService"
+        ]
+      }
+    },
+    "/v1/oauth/url": {
+      "get": {
+        "operationId": "IdentraService_GetOAuthAuthorizationURL",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1GetOAuthAuthorizationURLResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "provider",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "redirect_url",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "IdentraService"
+        ]
+      }
+    },
+    "/v1/password/login": {
+      "post": {
+        "operationId": "IdentraService_LoginByPassword",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1LoginByPasswordResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1LoginByPasswordRequest"
+            }
+          }
+        ],
+        "tags": [
+          "IdentraService"
+        ]
+      }
+    },
+    "/v1/token/refresh": {
+      "post": {
+        "operationId": "IdentraService_RefreshToken",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1RefreshTokenResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1RefreshTokenRequest"
+            }
+          }
+        ],
+        "tags": [
+          "IdentraService"
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "protobufAny": {
+      "type": "object",
+      "properties": {
+        "@type": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": {}
+    },
+    "rpcStatus": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "message": {
+          "type": "string"
+        },
+        "details": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/protobufAny"
+          }
+        }
+      }
+    },
+    "v1GetJWKSResponse": {
+      "type": "object",
+      "properties": {
+        "keys": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v1JSONWebKey"
+          },
+          "title": "List of JSON Web Keys"
+        }
+      }
+    },
+    "v1GetOAuthAuthorizationURLResponse": {
+      "type": "object",
+      "properties": {
+        "url": {
+          "type": "string"
+        },
+        "state": {
+          "type": "string"
+        }
+      }
+    },
+    "v1JSONWebKey": {
+      "type": "object",
+      "properties": {
+        "kty": {
+          "type": "string",
+          "title": "Key type (e.g., \"RSA\", \"EC\")"
+        },
+        "alg": {
+          "type": "string",
+          "title": "Algorithm (e.g., \"RS256\", \"ES256\")"
+        },
+        "use": {
+          "type": "string",
+          "title": "Key usage (e.g., \"sig\" for signature)"
+        },
+        "kid": {
+          "type": "string",
+          "title": "Key ID"
+        },
+        "n": {
+          "type": "string",
+          "title": "RSA modulus (Base64URL encoded, for RSA keys)"
+        },
+        "e": {
+          "type": "string",
+          "title": "RSA exponent (Base64URL encoded, for RSA keys)"
+        },
+        "crv": {
+          "type": "string",
+          "title": "EC curve name (for EC keys)"
+        },
+        "x": {
+          "type": "string",
+          "title": "EC x coordinate (Base64URL encoded, for EC keys)"
+        },
+        "y": {
+          "type": "string",
+          "title": "EC y coordinate (Base64URL encoded, for EC keys)"
+        }
+      },
+      "title": "JSON Web Key represents a single key in the JWKS"
+    },
+    "v1LoginByOAuthRequest": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "string"
+        },
+        "state": {
+          "type": "string"
+        }
+      }
+    },
+    "v1LoginByOAuthResponse": {
+      "type": "object",
+      "properties": {
+        "token": {
+          "$ref": "#/definitions/v1TokenPair"
+        }
+      }
+    },
+    "v1LoginByPasswordRequest": {
+      "type": "object",
+      "properties": {
+        "email": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        }
+      }
+    },
+    "v1LoginByPasswordResponse": {
+      "type": "object",
+      "properties": {
+        "token": {
+          "$ref": "#/definitions/v1TokenPair"
+        }
+      }
+    },
+    "v1RefreshTokenRequest": {
+      "type": "object",
+      "properties": {
+        "refresh_token": {
+          "type": "string"
+        }
+      }
+    },
+    "v1RefreshTokenResponse": {
+      "type": "object",
+      "properties": {
+        "token": {
+          "$ref": "#/definitions/v1TokenPair"
+        }
+      }
+    },
+    "v1TokenPair": {
+      "type": "object",
+      "properties": {
+        "access_token": {
+          "type": "string",
+          "title": "Short-lived access token for API authentication (typically 15 minutes)"
+        },
+        "access_token_expires_at": {
+          "type": "string",
+          "format": "date-time",
+          "title": "Access token expiration time"
+        },
+        "refresh_token": {
+          "type": "string",
+          "title": "Long-lived refresh token for obtaining new access tokens (typically 7 days)"
+        },
+        "refresh_token_expires_at": {
+          "type": "string",
+          "format": "date-time",
+          "title": "Refresh token expiration time"
+        },
+        "token_type": {
+          "type": "string",
+          "title": "Token type, typically \"Bearer\""
+        }
+      },
+      "title": "TokenPair contains both access and refresh tokens following JWKS standards"
+    }
+  }
+}
